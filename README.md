@@ -2,8 +2,8 @@
 
 A flutter project to show covid 19 cases by country.
 # API
-<a href='https://covid19api.com/'>Covid-19 API</>
-<a href='https://ksred.com/'>Covid-19 API</>
+<a href='https://covid19api.com/'>Covid-19 API</a>
+<a href='https://ksred.com/'>Covid-19 API</a>
 
 ## Getting Started
 
