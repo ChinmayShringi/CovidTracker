@@ -1,6 +1,7 @@
 import 'package:covidtrack/main.dart';
 import 'package:covidtrack/pseudoAppBar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -61,10 +62,13 @@ class _HomePageState extends State<HomePage> {
               ),
               child: Row(
                 children: <Widget>[
+                  SvgPicture.asset("assets/icons/maps-and-flags.svg"),
+                  SizedBox(width: 20),
                   Expanded(
                     child: DropdownButton(
                       isExpanded: true,
                       underline: SizedBox(),
+                      icon: SvgPicture.asset("assets/icons/dropdown.svg"),
                       value: "Indonesia",
                       items: [
                         'Indonesia',
@@ -117,6 +121,41 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   SizedBox(height: 20),
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(0, 4),
+                          blurRadius: 30,
+                          color: kShadowColor,
+                        ),
+                      ],
+                    ),
+                    // child: Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: <Widget>[
+                    //     Counter(
+                    //       color: kInfectedColor,
+                    //       number: 1046,
+                    //       title: "Infected",
+                    //     ),
+                    //     Counter(
+                    //       color: kDeathColor,
+                    //       number: 87,
+                    //       title: "Deaths",
+                    //     ),
+                    //     Counter(
+                    //       color: kRecovercolor,
+                    //       number: 46,
+                    //       title: "Recovered",
+                    //     ),
+                    //   ],
+                    // ),
+                  ),
+                  SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -132,6 +171,27 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ],
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 20),
+                    padding: EdgeInsets.all(20),
+                    height: 178,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(0, 10),
+                          blurRadius: 30,
+                          color: kShadowColor,
+                        ),
+                      ],
+                    ),
+                    child: Image.asset(
+                      "assets/images/map.png",
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ],
               ),
