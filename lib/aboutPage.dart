@@ -1,5 +1,7 @@
 import 'package:covidtrack/main.dart';
+import 'package:covidtrack/pseudoAppBar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AboutPage extends StatefulWidget {
   @override
@@ -36,6 +38,12 @@ class _AboutPageState extends State<AboutPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            PseudoAppBar(
+              image: "assets/icons/coronadr.svg",
+              textTop: "Get to know",
+              textBottom: "About Covid-19.",
+              offset: offset,
+            ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -154,6 +162,10 @@ class PreventCard extends StatelessWidget {
                           fontSize: 12,
                         ),
                       ),
+                    ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: SvgPicture.asset("assets/icons/forward.svg"),
                     ),
                   ],
                 ),
