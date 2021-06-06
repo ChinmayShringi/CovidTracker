@@ -1,4 +1,5 @@
 import 'package:covidtrack/main.dart';
+import 'package:covidtrack/pseudoAppBar.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -38,6 +39,12 @@ class _HomePageState extends State<HomePage> {
         controller: controller,
         child: Column(
           children: <Widget>[
+            PseudoAppBar(
+              image: "assets/icons/Drcorona.svg",
+              textTop: "All you need",
+              textBottom: "is stay at home.",
+              offset: offset,
+            ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: _deviceWidth * 0.02),
               padding: EdgeInsets.symmetric(
