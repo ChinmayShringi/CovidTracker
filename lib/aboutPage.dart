@@ -165,7 +165,7 @@ class PreventCard extends StatelessWidget {
                     ),
                     Align(
                       alignment: Alignment.topRight,
-                      child: SvgPicture.asset("assets/icons/forward.svg"),
+                      child: Icon(Icons.arrow_forward_ios),
                     ),
                   ],
                 ),

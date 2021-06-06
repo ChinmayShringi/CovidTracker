@@ -1,4 +1,3 @@
-import 'package:covidtrack/aboutPage.dart';
 import 'package:covidtrack/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -41,19 +40,6 @@ class _PseudoAppBarState extends State<PseudoAppBar> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return AboutPage();
-                    },
-                  ),
-                );
-              },
-              child: SvgPicture.asset("assets/icons/menu.svg"),
-            ),
             SizedBox(height: 20),
             Expanded(
               child: Stack(
@@ -77,7 +63,6 @@ class _PseudoAppBarState extends State<PseudoAppBar> {
                       ),
                     ),
                   ),
-                  Container(), // I dont know why it can't work without container
                 ],
               ),
             ),

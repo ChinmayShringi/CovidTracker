@@ -1,3 +1,4 @@
+import 'package:covidtrack/aboutPage.dart';
 import 'package:covidtrack/main.dart';
 import 'package:covidtrack/pseudoAppBar.dart';
 import 'package:flutter/material.dart';
@@ -62,13 +63,13 @@ class _HomePageState extends State<HomePage> {
               ),
               child: Row(
                 children: <Widget>[
-                  SvgPicture.asset("assets/icons/maps-and-flags.svg"),
+                  // SvgPicture.asset("assets/icons/maps-and-flags.svg"),
                   SizedBox(width: 20),
                   Expanded(
                     child: DropdownButton(
                       isExpanded: true,
                       underline: SizedBox(),
-                      icon: SvgPicture.asset("assets/icons/dropdown.svg"),
+                      icon: Icon(Icons.arrow_drop_down),
                       value: "Indonesia",
                       items: [
                         'Indonesia',
@@ -92,6 +93,36 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: <Widget>[
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "Covid Prevention",
+                        style: kTitleTextstyle,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return AboutPage();
+                              },
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "See details",
+                          style: TextStyle(
+                            color: kPrimaryColor,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
                   Row(
                     children: <Widget>[
                       RichText(
@@ -155,44 +186,6 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-                  // SizedBox(height: 20),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: <Widget>[
-                  //     Text(
-                  //       "Spread of Virus",
-                  //       style: kTitleTextstyle,
-                  //     ),
-                  //     Text(
-                  //       "See details",
-                  //       style: TextStyle(
-                  //         color: kPrimaryColor,
-                  //         fontWeight: FontWeight.w600,
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  // Container(
-                  //   margin: EdgeInsets.only(top: 20),
-                  //   padding: EdgeInsets.all(20),
-                  //   height: 178,
-                  //   width: double.infinity,
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(20),
-                  //     color: Colors.white,
-                  //     boxShadow: [
-                  //       BoxShadow(
-                  //         offset: Offset(0, 10),
-                  //         blurRadius: 30,
-                  //         color: kShadowColor,
-                  //       ),
-                  //     ],
-                  //   ),
-                  //   child: Image.asset(
-                  //     "assets/images/map.png",
-                  //     fit: BoxFit.contain,
-                  //   ),
-                  // ),
                 ],
               ),
             ),

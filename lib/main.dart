@@ -13,7 +13,6 @@ const kPrimaryColor = Color(0xFF3382CC);
 final kShadowColor = Color(0xFFB7B7B7).withOpacity(.16);
 final kActiveShadowColor = Color(0xFF4056C6).withOpacity(.15);
 
-// Text Style
 const kHeadingTextStyle = TextStyle(
   fontSize: 22,
   fontWeight: FontWeight.w600,
@@ -40,11 +39,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Covid 19',
       theme: ThemeData(
-          scaffoldBackgroundColor: kBackgroundColor,
-          fontFamily: "Poppins",
-          textTheme: TextTheme(
-            body1: TextStyle(color: kBodyTextColor),
-          )),
+        scaffoldBackgroundColor: kBackgroundColor,
+      ),
       home: HomePage(),
       // home: AboutScreen(),
     );
