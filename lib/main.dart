@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 const kBackgroundColor = Color(0xFFFEFEFE);
 const kTitleTextColor = Color(0xFF303030);
@@ -25,7 +26,12 @@ const kTitleTextstyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
-void main() => runApp(MyApp());
+void main() => {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+  ));
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
