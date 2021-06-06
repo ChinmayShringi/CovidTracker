@@ -26,8 +26,7 @@ const kTitleTextstyle = TextStyle(
   color: kTitleTextColor,
   fontWeight: FontWeight.bold,
 );
-
-void main() => {
+void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
@@ -46,7 +45,8 @@ class MyApp extends StatelessWidget {
           textTheme: TextTheme(
             body1: TextStyle(color: kBodyTextColor),
           )),
-      home: HomeScreen(),
+      home: HomePage(),
+      // home: AboutScreen(),
     );
   }
 }
