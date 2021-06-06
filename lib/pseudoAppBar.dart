@@ -1,5 +1,7 @@
+import 'package:covidtrack/aboutPage.dart';
 import 'package:covidtrack/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class PseudoAppBar extends StatefulWidget {
   final String image;
@@ -18,7 +20,7 @@ class _PseudoAppBarState extends State<PseudoAppBar> {
   @override
   Widget build(BuildContext context) {
     return ClipPath(
-      clipper: CurveClip(),
+      clipper: CurveClipper(),
       child: Container(
         padding: EdgeInsets.only(left: 40, top: 50, right: 20),
         height: 350,
@@ -32,29 +34,38 @@ class _PseudoAppBarState extends State<PseudoAppBar> {
               Color(0xFF11249F),
             ],
           ),
+          image: DecorationImage(
+            image: AssetImage("assets/images/virus.png"),
+          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            // GestureDetector(
-            //   onTap: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //         builder: (context) {
-            //           return AboutPage();
-            //         },
-            //       ),
-            //     );
-            //   },
-            //   child: SvgPicture.asset("assets/icons/menu.svg"),
-            // ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return AboutPage();
+                    },
+                  ),
+                );
+              },
+              child: SvgPicture.asset("assets/icons/menu.svg"),
+            ),
             SizedBox(height: 20),
             Expanded(
               child: Stack(
                 children: <Widget>[
                   Positioned(
                     top: (widget.offset < 0) ? 0 : widget.offset,
+                    child: SvgPicture.asset(
+                      widget.image,
+                      width: 230,
+                      fit: BoxFit.fitWidth,
+                      alignment: Alignment.topCenter,
+                    ),
                   ),
                   Positioned(
                     top: 20 - widget.offset / 2,
@@ -77,7 +88,7 @@ class _PseudoAppBarState extends State<PseudoAppBar> {
   }
 }
 
-class CurveClip extends CustomClipper<Path> {
+class CurveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     var path = Path();

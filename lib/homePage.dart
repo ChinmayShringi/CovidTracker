@@ -134,26 +134,26 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
-                    // child: Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: <Widget>[
-                    //     Counter(
-                    //       color: kInfectedColor,
-                    //       number: 1046,
-                    //       title: "Infected",
-                    //     ),
-                    //     Counter(
-                    //       color: kDeathColor,
-                    //       number: 87,
-                    //       title: "Deaths",
-                    //     ),
-                    //     Counter(
-                    //       color: kRecovercolor,
-                    //       number: 46,
-                    //       title: "Recovered",
-                    //     ),
-                    //   ],
-                    // ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        CovidFigure(
+                          color: kInfectedColor,
+                          number: 1046,
+                          title: "Infected",
+                        ),
+                        CovidFigure(
+                          color: kDeathColor,
+                          number: 87,
+                          title: "Deaths",
+                        ),
+                        CovidFigure(
+                          color: kRecovercolor,
+                          number: 46,
+                          title: "Recovered",
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(height: 20),
                   Row(
