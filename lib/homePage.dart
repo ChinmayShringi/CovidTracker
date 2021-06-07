@@ -43,7 +43,7 @@ class Covid {
       totalRecovered: json['Global']['TotalRecovered'],
     );
   }
-  factory Covid.fromJsonCountry({String country = 'India'}) {
+  factory Covid.fromJsonCountry(String country) {
     List temp = allCountries.where((i) => i['Country'] == country).toList();
     return Covid(
       country: temp[0]['Country'],
@@ -60,9 +60,9 @@ class Covid {
   }
 }
 
-Future<Covid> fetchCovidCountry() async {
+Covid fetchCovidCountry({String country = 'India'}) {
   try {
-    return Covid.fromJsonCountry();
+    return Covid.fromJsonCountry(country);
   } catch (e) {
     throw Exception('Failed to load Covid');
   }
@@ -87,7 +87,9 @@ class _HomePageState extends State<HomePage> {
   final controller = ScrollController();
   double offset = 0;
   Future<Covid> futureCovidGlobal;
-  Future<Covid> futureCovidCountry;
+  Covid futureCovidCountry;
+  String dropValue = "Default Country";
+  bool isSet = false;
 
   @override
   void initState() {
@@ -181,6 +183,9 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -190,6 +195,9 @@ class _HomePageState extends State<HomePage> {
                                 title: "Deaths",
                               ),
                             ]),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -296,13 +304,13 @@ class _HomePageState extends State<HomePage> {
                               List dropDown = Covid.allCountries
                                   .map((data) => data['Country'])
                                   .toList();
-                              dropDown.add("Default Location");
+                              dropDown.add("Default Country");
                               return Expanded(
                                 child: DropdownButton(
                                   isExpanded: true,
                                   underline: SizedBox(),
                                   icon: Icon(Icons.arrow_drop_down),
-                                  value: "Default Location",
+                                  value: dropValue,
                                   items: [...dropDown]
                                       .map<DropdownMenuItem<String>>(
                                           (dynamic value) {
@@ -312,7 +320,14 @@ class _HomePageState extends State<HomePage> {
                                     );
                                   }).toList(),
                                   onChanged: (value) {
-                                    print(value);
+                                    setState(() {
+                                      this.dropValue = value;
+                                      futureCovidCountry =
+                                          fetchCovidCountry(country: value);
+                                      this.isSet = futureCovidCountry == null
+                                          ? false
+                                          : true;
+                                    });
                                   },
                                 ),
                               );
@@ -338,23 +353,94 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Column(
                       children: <Widget>[
-                        CovidFigure(
-                          color: kInfectedColor,
-                          number: 1046,
-                          title: "Infected",
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CovidFigure(
+                              color: kRecovercolor,
+                              number: this.isSet
+                                  ? this.futureCovidCountry.totalRecovered
+                                  : 46,
+                              title: " Total Recovered",
+                            ),
+                          ],
                         ),
-                        CovidFigure(
-                          color: kDeathColor,
-                          number: 87,
-                          title: "Deaths",
+                        SizedBox(
+                          height: 10,
                         ),
-                        CovidFigure(
-                          color: kRecovercolor,
-                          number: 46,
-                          title: "Recovered",
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CovidFigure(
+                              color: kDeathColor,
+                              number: this.isSet
+                                  ? this.futureCovidCountry.totalDeaths
+                                  : 87,
+                              title: "Total Deaths",
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CovidFigure(
+                              color: kInfectedColor,
+                              number: this.isSet
+                                  ? this.futureCovidCountry.totalConfirmed
+                                  : 1046,
+                              title: "Total Cases",
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CovidFigure(
+                              color: kDeathColor,
+                              number: this.isSet
+                                  ? this.futureCovidCountry.newConfirmed
+                                  : 1046,
+                              title: "New Cases",
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CovidFigure(
+                              color: kDeathColor,
+                              number: this.isSet
+                                  ? this.futureCovidCountry.newDeaths
+                                  : 1046,
+                              title: "New Deaths",
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CovidFigure(
+                              color: kRecovercolor,
+                              number: this.isSet
+                                  ? this.futureCovidCountry.newRecovered
+                                  : 1046,
+                              title: "New Recovered",
+                            ),
+                          ],
                         ),
                       ],
                     ),
