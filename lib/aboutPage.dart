@@ -30,6 +30,22 @@ class _AboutPageState extends State<AboutPage> {
     });
   }
 
+  List symtom = [
+    "fever",
+    "dry cough",
+    "tiredness",
+    "aches and pains",
+    "sore throat",
+    "diarrhoea",
+    "conjunctivitis",
+    "headache",
+    "loss of taste or smell",
+    "a rash on skin, or discolouration of fingers or toes",
+    "difficulty breathing or shortness of breath",
+    "chest pain or pressure",
+    "loss of speech or movement",
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,37 +69,53 @@ class _AboutPageState extends State<AboutPage> {
                     style: kTitleTextstyle,
                   ),
                   SizedBox(height: 20),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        SymptomCard(
-                          image: "assets/images/headache.png",
-                          title: "Headache",
-                          isActive: true,
-                        ),
-                        SymptomCard(
-                          image: "assets/images/caugh.png",
-                          title: "Caugh",
-                        ),
-                        SymptomCard(
-                          image: "assets/images/fever.png",
-                          title: "Fever",
-                        ),
-                      ],
-                    ),
+                  Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    direction: Axis.horizontal,
+                    children: <Widget>[
+                      for (int i = 0; i < this.symtom.length; i++)
+                        Container(
+                          margin:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 2),
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.blueGrey.shade200,
+                                offset: Offset(4.0, 4.0),
+                                blurRadius: 15.0,
+                                spreadRadius: 1.0,
+                              ),
+                              BoxShadow(
+                                  color: Colors.white,
+                                  offset: Offset(-4.0, -4.0),
+                                  blurRadius: 15.0,
+                                  spreadRadius: 1.0)
+                            ],
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                this.symtom[i],
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        )
+                    ],
                   ),
                   SizedBox(height: 20),
                   Text("Prevention", style: kTitleTextstyle),
                   SizedBox(height: 20),
-                  PreventCard(
+                  _buildPreventCard(
                     text:
                         "Since the start of the coronavirus outbreak some places have fully embraced wearing facemasks",
                     image: "assets/images/wear_mask.png",
                     title: "Wear face mask",
                   ),
-                  PreventCard(
+                  _buildPreventCard(
                     text:
                         "Since the start of the coronavirus outbreak some places have fully embraced wearing facemasks",
                     image: "assets/images/wash_hands.png",
@@ -100,11 +132,11 @@ class _AboutPageState extends State<AboutPage> {
   }
 }
 
-class PreventCard extends StatelessWidget {
+class _buildPreventCard extends StatelessWidget {
   final String image;
   final String title;
   final String text;
-  const PreventCard({
+  const _buildPreventCard({
     Key key,
     this.image,
     this.title,
@@ -172,51 +204,6 @@ class PreventCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class SymptomCard extends StatelessWidget {
-  final String image;
-  final String title;
-  final bool isActive;
-  const SymptomCard({
-    Key key,
-    this.image,
-    this.title,
-    this.isActive = false,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: Colors.white,
-        boxShadow: [
-          isActive
-              ? BoxShadow(
-                  offset: Offset(0, 10),
-                  blurRadius: 20,
-                  color: kActiveShadowColor,
-                )
-              : BoxShadow(
-                  offset: Offset(0, 3),
-                  blurRadius: 6,
-                  color: kShadowColor,
-                ),
-        ],
-      ),
-      child: Column(
-        children: <Widget>[
-          Image.asset(image, height: 90),
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ],
       ),
     );
   }
