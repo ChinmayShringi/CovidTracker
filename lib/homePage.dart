@@ -43,16 +43,16 @@ class Covid {
   factory Covid.fromJsonCountry(Map<String, dynamic> json) {
     print(json['Countries'][0]);
     // return Covid(
-    //   country: json['Country'],
-    //   countryCode: json['CountryCode'],
-    //   slug: json['Slug'],
-    //   newConfirmed: json['NewConfirmed'],
-    //   totalConfirmed: json['TotalConfirmed'],
-    //   newDeaths: json['NewDeaths'],
-    //   totalDeaths: json['TotalDeaths'],
-    //   newRecovered: json['NewRecovered'],
-    //   totalRecovered: json['TotalRecovered'],
-    //   date: json['Date'],
+    //   country: json['Countries'][0]['Country'],
+    //   countryCode: json['Countries'][0]['CountryCode'],
+    //   slug: json['Countries'][0]['Slug'],
+    //   newConfirmed: json['Countries'][0]['NewConfirmed'],
+    //   totalConfirmed: json['Countries'][0]['TotalConfirmed'],
+    //   newDeaths: json['Countries'][0]['NewDeaths'],
+    //   totalDeaths: json['Countries'][0]['TotalDeaths'],
+    //   newRecovered: json['Countries'][0]['NewRecovered'],
+    //   totalRecovered: json['Countries'][0]['TotalRecovered'],
+    //   date: json['Countries'][0]['Date'],
     // );
   }
 }
@@ -112,8 +112,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var _deviceHeight = MediaQuery.of(context).size.height;
-    var _deviceWidth = MediaQuery.of(context).size.width;
+    var sizeHeight = MediaQuery.of(context).size.height;
+    var sizeWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -126,45 +126,88 @@ class _HomePageState extends State<HomePage> {
               offset: offset,
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: _deviceWidth * 0.02),
-              padding: EdgeInsets.symmetric(
-                  vertical: _deviceHeight * 0.01,
-                  horizontal: _deviceWidth * 0.02),
-              height: _deviceHeight * 0.06,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(25),
-                border: Border.all(
-                  color: Color(0xFFE5E5E5),
-                ),
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 20),
               child: Row(
                 children: <Widget>[
-                  // SvgPicture.asset("assets/icons/maps-and-flags.svg"),
-                  SizedBox(width: 20),
-                  Expanded(
-                    child: DropdownButton(
-                      isExpanded: true,
-                      underline: SizedBox(),
-                      icon: Icon(Icons.arrow_drop_down),
-                      value: "Indonesia",
-                      items: [
-                        'Indonesia',
-                        'Bangladesh',
-                        'United States',
-                        'Japan'
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (value) {},
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Global Count\n",
+                          style: kTitleTextstyle,
+                        ),
+                      ],
                     ),
                   ),
+                  Spacer(),
+                  // Text(
+                  //   "See details",
+                  //   style: TextStyle(
+                  //     color: kPrimaryColor,
+                  //     fontWeight: FontWeight.w600,
+                  //   ),
+                  // ),
                 ],
               ),
+            ),
+            FutureBuilder<Covid>(
+              future: futureCovidGlobal,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return
+                      // number: snapshot.data.newConfirmed,
+                      Container(
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(0, 4),
+                          blurRadius: 30,
+                          color: kShadowColor,
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CovidFigure(
+                              color: kInfectedColor,
+                              number: snapshot.data.totalRecovered,
+                              title: "Recovered",
+                            ),
+                          ],
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CovidFigure(
+                                color: kDeathColor,
+                                number: snapshot.data.totalDeaths,
+                                title: "Deaths",
+                              ),
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CovidFigure(
+                                color: kRecovercolor,
+                                number: snapshot.data.totalConfirmed,
+                                title: "Total",
+                              ),
+                            ]),
+                      ],
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+                return CircularProgressIndicator();
+              },
             ),
             SizedBox(height: 20),
             Padding(
@@ -207,11 +250,11 @@ class _HomePageState extends State<HomePage> {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: "Case Update\n",
+                              text: "Country Wise\n",
                               style: kTitleTextstyle,
                             ),
                             TextSpan(
-                              text: "Newest update March 28",
+                              text: "Latest update!",
                               style: TextStyle(
                                 color: kTextLightColor,
                               ),
@@ -220,30 +263,56 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Spacer(),
-                      Text(
-                        "See details",
-                        style: TextStyle(
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      // Text(
+                      //   "See details",
+                      //   style: TextStyle(
+                      //     color: kPrimaryColor,
+                      //     fontWeight: FontWeight.w600,
+                      //   ),
+                      // ),
                     ],
                   ),
-                  FutureBuilder<Covid>(
-                    future: futureCovidGlobal,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        print(snapshot);
-                        return Text('${snapshot.data.newConfirmed}');
-                      } else if (snapshot.hasError) {
-                        return Text("${snapshot.error}");
-                      }
-
-                      // By default, show a loading spinner.
-                      return CircularProgressIndicator();
-                    },
-                  ),
                   SizedBox(height: 20),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: sizeWidth * 0.02),
+                    padding: EdgeInsets.symmetric(
+                        vertical: sizeHeight * 0.01,
+                        horizontal: sizeWidth * 0.02),
+                    height: sizeHeight * 0.06,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(25),
+                      border: Border.all(
+                        color: Color(0xFFE5E5E5),
+                      ),
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        SizedBox(width: 20),
+                        Expanded(
+                          child: DropdownButton(
+                            isExpanded: true,
+                            underline: SizedBox(),
+                            icon: Icon(Icons.arrow_drop_down),
+                            value: "Indonesia",
+                            items: [
+                              'Indonesia',
+                              'Bangladesh',
+                              'United States',
+                              'Japan'
+                            ].map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            onChanged: (value) {},
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   Container(
                     padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(
@@ -260,24 +329,25 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        // CovidFigure(
-                        //   color: kInfectedColor,
-                        //   number: 1046,
-                        //   title: "Infected",
-                        // ),
-                        // CovidFigure(
-                        //   color: kDeathColor,
-                        //   number: 87,
-                        //   title: "Deaths",
-                        // ),
-                        // CovidFigure(
-                        //   color: kRecovercolor,
-                        //   number: 46,
-                        //   title: "Recovered",
-                        // ),
+                        CovidFigure(
+                          color: kInfectedColor,
+                          number: 1046,
+                          title: "Infected",
+                        ),
+                        CovidFigure(
+                          color: kDeathColor,
+                          number: 87,
+                          title: "Deaths",
+                        ),
+                        CovidFigure(
+                          color: kRecovercolor,
+                          number: 46,
+                          title: "Recovered",
+                        ),
                       ],
                     ),
                   ),
+                  SizedBox(height: 100),
                 ],
               ),
             ),
