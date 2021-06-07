@@ -16,6 +16,7 @@ class Covid {
   int newRecovered;
   int totalRecovered;
   String date;
+  static List<dynamic> allCountries;
 
   Covid({
     this.country,
@@ -31,6 +32,8 @@ class Covid {
   });
 
   factory Covid.fromJsonGlobal(Map<String, dynamic> json) {
+    allCountries = json['Countries'];
+
     return Covid(
       newConfirmed: json['Global']['NewConfirmed'],
       totalConfirmed: json['Global']['TotalConfirmed'],
@@ -40,31 +43,27 @@ class Covid {
       totalRecovered: json['Global']['TotalRecovered'],
     );
   }
-  factory Covid.fromJsonCountry(Map<String, dynamic> json) {
-    print(json['Countries'][0]);
-    // return Covid(
-    //   country: json['Countries'][0]['Country'],
-    //   countryCode: json['Countries'][0]['CountryCode'],
-    //   slug: json['Countries'][0]['Slug'],
-    //   newConfirmed: json['Countries'][0]['NewConfirmed'],
-    //   totalConfirmed: json['Countries'][0]['TotalConfirmed'],
-    //   newDeaths: json['Countries'][0]['NewDeaths'],
-    //   totalDeaths: json['Countries'][0]['TotalDeaths'],
-    //   newRecovered: json['Countries'][0]['NewRecovered'],
-    //   totalRecovered: json['Countries'][0]['TotalRecovered'],
-    //   date: json['Countries'][0]['Date'],
-    // );
+  factory Covid.fromJsonCountry({String country = 'India'}) {
+    List temp = allCountries.where((i) => i['Country'] == country).toList();
+    return Covid(
+      country: temp[0]['Country'],
+      countryCode: temp[0]['CountryCode'],
+      slug: temp[0]['Slug'],
+      newConfirmed: temp[0]['NewConfirmed'],
+      totalConfirmed: temp[0]['TotalConfirmed'],
+      newDeaths: temp[0]['NewDeaths'],
+      totalDeaths: temp[0]['TotalDeaths'],
+      newRecovered: temp[0]['NewRecovered'],
+      totalRecovered: temp[0]['TotalRecovered'],
+      date: temp[0]['Date'],
+    );
   }
 }
 
 Future<Covid> fetchCovidCountry() async {
-  final response =
-      await http.get(Uri.parse('https://api.covid19api.com/summary'));
-  print(response);
-  if (response.statusCode == 200) {
-    // print(jsonDecode(response.body.['Countries']));
-    return Covid.fromJsonCountry(jsonDecode(response.body));
-  } else {
+  try {
+    return Covid.fromJsonCountry();
+  } catch (e) {
     throw Exception('Failed to load Covid');
   }
 }
@@ -290,25 +289,38 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       children: <Widget>[
                         SizedBox(width: 20),
-                        Expanded(
-                          child: DropdownButton(
-                            isExpanded: true,
-                            underline: SizedBox(),
-                            icon: Icon(Icons.arrow_drop_down),
-                            value: "Indonesia",
-                            items: [
-                              'Indonesia',
-                              'Bangladesh',
-                              'United States',
-                              'Japan'
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
+                        FutureBuilder<Covid>(
+                          future: futureCovidGlobal,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              List dropDown = Covid.allCountries
+                                  .map((data) => data['Country'])
+                                  .toList();
+                              dropDown.add("Default Location");
+                              return Expanded(
+                                child: DropdownButton(
+                                  isExpanded: true,
+                                  underline: SizedBox(),
+                                  icon: Icon(Icons.arrow_drop_down),
+                                  value: "Default Location",
+                                  items: [...dropDown]
+                                      .map<DropdownMenuItem<String>>(
+                                          (dynamic value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    print(value);
+                                  },
+                                ),
                               );
-                            }).toList(),
-                            onChanged: (value) {},
-                          ),
+                            } else if (snapshot.hasError) {
+                              return Text("${snapshot.error}");
+                            }
+                            return CircularProgressIndicator();
+                          },
                         ),
                       ],
                     ),
