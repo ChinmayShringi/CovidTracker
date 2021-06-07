@@ -1,6 +1,5 @@
 import 'package:covidtrack/main.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class PseudoAppBar extends StatefulWidget {
   final String textTop;
@@ -41,13 +40,16 @@ class _PseudoAppBarState extends State<PseudoAppBar> {
             SizedBox(height: 20),
             Expanded(
               child: Stack(
+                alignment: Alignment.center,
                 children: <Widget>[
                   Positioned(
                     top: 20 - widget.offset / 2,
-                    left: 150,
+                    // left: MediaQuery.of(context).size.width / 2 - 130,
                     child: Text(
                       "${widget.textTop} \n${widget.textBottom}",
+                      textAlign: TextAlign.center,
                       style: kHeadingTextStyle.copyWith(
+                        fontSize: 28.0,
                         color: Colors.white,
                       ),
                     ),

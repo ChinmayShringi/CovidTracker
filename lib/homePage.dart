@@ -122,8 +122,8 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: <Widget>[
             PseudoAppBar(
-              textTop: "All you need",
-              textBottom: "is stay at home.",
+              textTop: "KEEP CALM\nAND",
+              textBottom: "STAY AT HOME",
               offset: offset,
             ),
             Container(
