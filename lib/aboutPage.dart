@@ -111,13 +111,13 @@ class _AboutPageState extends State<AboutPage> {
                   SizedBox(height: 20),
                   _buildPreventCard(
                     text:
-                        "Since the start of the coronavirus outbreak some places have fully embraced wearing facemasks",
+                        "Facemasks are important for you and the people around you! They help prevent Covid19 Spread",
                     image: "assets/images/wear_mask.png",
                     title: "Wear face mask",
                   ),
                   _buildPreventCard(
                     text:
-                        "Since the start of the coronavirus outbreak some places have fully embraced wearing facemasks",
+                        "Washing hands is a good sign of hygine. They also ensure that the virus in your hands are executed",
                     image: "assets/images/wash_hands.png",
                     title: "Wash your hands",
                   ),
