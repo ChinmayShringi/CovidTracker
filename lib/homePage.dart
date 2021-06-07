@@ -2,7 +2,82 @@ import 'package:covidtrack/aboutPage.dart';
 import 'package:covidtrack/main.dart';
 import 'package:covidtrack/pseudoAppBar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+class Covid {
+  String country;
+  String countryCode;
+  String slug;
+  int newConfirmed;
+  int totalConfirmed;
+  int newDeaths;
+  int totalDeaths;
+  int newRecovered;
+  int totalRecovered;
+  String date;
+
+  Covid({
+    this.country,
+    this.countryCode,
+    this.slug,
+    this.newConfirmed,
+    this.totalConfirmed,
+    this.newDeaths,
+    this.totalDeaths,
+    this.newRecovered,
+    this.totalRecovered,
+    this.date,
+  });
+
+  factory Covid.fromJsonGlobal(Map<String, dynamic> json) {
+    return Covid(
+      newConfirmed: json['Global']['NewConfirmed'],
+      totalConfirmed: json['Global']['TotalConfirmed'],
+      newDeaths: json['Global']['NewDeaths'],
+      totalDeaths: json['Global']['TotalDeaths'],
+      newRecovered: json['Global']['NewRecovered'],
+      totalRecovered: json['Global']['TotalRecovered'],
+    );
+  }
+  factory Covid.fromJsonCountry(Map<String, dynamic> json) {
+    print(json['Countries'][0]);
+    // return Covid(
+    //   country: json['Country'],
+    //   countryCode: json['CountryCode'],
+    //   slug: json['Slug'],
+    //   newConfirmed: json['NewConfirmed'],
+    //   totalConfirmed: json['TotalConfirmed'],
+    //   newDeaths: json['NewDeaths'],
+    //   totalDeaths: json['TotalDeaths'],
+    //   newRecovered: json['NewRecovered'],
+    //   totalRecovered: json['TotalRecovered'],
+    //   date: json['Date'],
+    // );
+  }
+}
+
+Future<Covid> fetchCovidCountry() async {
+  final response =
+      await http.get(Uri.parse('https://api.covid19api.com/summary'));
+  print(response);
+  if (response.statusCode == 200) {
+    // print(jsonDecode(response.body.['Countries']));
+    return Covid.fromJsonCountry(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to load Covid');
+  }
+}
+
+Future<Covid> fetchCovidGlobal() async {
+  final response =
+      await http.get(Uri.parse('https://api.covid19api.com/summary'));
+  if (response.statusCode == 200) {
+    return Covid.fromJsonGlobal(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to load Covid');
+  }
+}
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,10 +87,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final controller = ScrollController();
   double offset = 0;
+  Future<Covid> futureCovidGlobal;
+  Future<Covid> futureCovidCountry;
 
   @override
   void initState() {
     super.initState();
+    futureCovidGlobal = fetchCovidGlobal();
+    // futureCovidCountry = fetchCovidCountry();
     controller.addListener(onScroll);
   }
 
@@ -150,6 +229,20 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
+                  FutureBuilder<Covid>(
+                    future: futureCovidGlobal,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        print(snapshot);
+                        return Text('${snapshot.data.newConfirmed}');
+                      } else if (snapshot.hasError) {
+                        return Text("${snapshot.error}");
+                      }
+
+                      // By default, show a loading spinner.
+                      return CircularProgressIndicator();
+                    },
+                  ),
                   SizedBox(height: 20),
                   Container(
                     padding: EdgeInsets.all(20),
@@ -167,21 +260,21 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        CovidFigure(
-                          color: kInfectedColor,
-                          number: 1046,
-                          title: "Infected",
-                        ),
-                        CovidFigure(
-                          color: kDeathColor,
-                          number: 87,
-                          title: "Deaths",
-                        ),
-                        CovidFigure(
-                          color: kRecovercolor,
-                          number: 46,
-                          title: "Recovered",
-                        ),
+                        // CovidFigure(
+                        //   color: kInfectedColor,
+                        //   number: 1046,
+                        //   title: "Infected",
+                        // ),
+                        // CovidFigure(
+                        //   color: kDeathColor,
+                        //   number: 87,
+                        //   title: "Deaths",
+                        // ),
+                        // CovidFigure(
+                        //   color: kRecovercolor,
+                        //   number: 46,
+                        //   title: "Recovered",
+                        // ),
                       ],
                     ),
                   ),
