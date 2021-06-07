@@ -400,48 +400,48 @@ class _HomePageState extends State<HomePage> {
                         SizedBox(
                           height: 10,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CovidFigure(
-                              color: kDeathColor,
-                              number: this.isSet
-                                  ? this.futureCovidCountry.newConfirmed
-                                  : 1046,
-                              title: "New Cases",
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CovidFigure(
-                              color: kDeathColor,
-                              number: this.isSet
-                                  ? this.futureCovidCountry.newDeaths
-                                  : 1046,
-                              title: "New Deaths",
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CovidFigure(
-                              color: kRecovercolor,
-                              number: this.isSet
-                                  ? this.futureCovidCountry.newRecovered
-                                  : 1046,
-                              title: "New Recovered",
-                            ),
-                          ],
-                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     CovidFigure(
+                        //       color: kDeathColor,
+                        //       number: this.isSet
+                        //           ? this.futureCovidCountry.newConfirmed
+                        //           : 1046,
+                        //       title: "New Cases",
+                        //     ),
+                        //   ],
+                        // ),
+                        // SizedBox(
+                        //   height: 10,
+                        // ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     CovidFigure(
+                        //       color: kDeathColor,
+                        //       number: this.isSet
+                        //           ? this.futureCovidCountry.newDeaths
+                        //           : 1046,
+                        //       title: "New Deaths",
+                        //     ),
+                        //   ],
+                        // ),
+                        // SizedBox(
+                        //   height: 10,
+                        // ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     CovidFigure(
+                        //       color: kRecovercolor,
+                        //       number: this.isSet
+                        //           ? this.futureCovidCountry.newRecovered
+                        //           : 1046,
+                        //       title: "New Recovered",
+                        //     ),
+                        //   ],
+                        // ),
                       ],
                     ),
                   ),
