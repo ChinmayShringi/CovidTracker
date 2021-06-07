@@ -39,7 +39,6 @@ class _AboutPageState extends State<AboutPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             PseudoAppBar(
-              image: "assets/icons/coronadr.svg",
               textTop: "Get to know",
               textBottom: "About Covid-19.",
               offset: offset,

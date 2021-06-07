@@ -42,7 +42,6 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: <Widget>[
             PseudoAppBar(
-              image: "assets/icons/Drcorona.svg",
               textTop: "All you need",
               textBottom: "is stay at home.",
               offset: offset,

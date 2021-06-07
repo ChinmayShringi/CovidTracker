@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PseudoAppBar extends StatefulWidget {
-  final String image;
   final String textTop;
   final String textBottom;
   final double offset;
   const PseudoAppBar(
-      {Key key, this.image, this.textTop, this.textBottom, this.offset})
+      {Key key, this.textTop, this.textBottom, this.offset})
       : super(key: key);
 
   @override
@@ -44,15 +43,6 @@ class _PseudoAppBarState extends State<PseudoAppBar> {
             Expanded(
               child: Stack(
                 children: <Widget>[
-                  Positioned(
-                    top: (widget.offset < 0) ? 0 : widget.offset,
-                    child: SvgPicture.asset(
-                      widget.image,
-                      width: 230,
-                      fit: BoxFit.fitWidth,
-                      alignment: Alignment.topCenter,
-                    ),
-                  ),
                   Positioned(
                     top: 20 - widget.offset / 2,
                     left: 150,
