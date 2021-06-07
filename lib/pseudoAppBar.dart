@@ -6,8 +6,7 @@ class PseudoAppBar extends StatefulWidget {
   final String textTop;
   final String textBottom;
   final double offset;
-  const PseudoAppBar(
-      {Key key, this.textTop, this.textBottom, this.offset})
+  const PseudoAppBar({Key key, this.textTop, this.textBottom, this.offset})
       : super(key: key);
 
   @override
